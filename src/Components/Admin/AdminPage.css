@@ -1,0 +1,626 @@
+
+:root{
+    --primarycolor: #252D31;
+    --secandarycolor: #646E73;
+    --darkcolor: #141B1E;
+    --btncolor: hsl(15, 84%, 57%);
+}
+.navbar-admin {
+    position: sticky;
+    top: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+    width: 100%;
+    background-color: var(--primarycolor);
+    color: #fff;
+    padding: 10px;
+    border-bottom: 1px solid orangered;
+  }
+  .logout-adminpage{
+    border-radius: 20px;
+    background-color: orangered;
+    color: white;
+    padding: 0.5rem 2rem;
+    width: 100%;
+    margin-top: 1rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .logout-adminpage:hover{
+    background-color: hsl(15, 84%, 57%);
+  }
+  .logo-admin {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .container-admin {
+    
+    display: flex;
+    height: 1000px;
+  }
+  
+  .sidebar-admin {
+    position: sticky;
+    top: 0;
+    width: 200px;
+    height: 1000px;
+    background-color: var(--primarycolor);
+    padding: 20px;
+    border-right: 1px solid var(--btncolor);
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  }
+
+  
+  
+  .sidebar-admin ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .icon-admin{
+    margin-right: 2rem;
+  }
+  .sidebar-admin li {
+    margin-bottom: 10px;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #646E73;
+    transition: all 0.4s;
+  }
+  
+  .sidebar-admin li:hover {
+    color: white;
+  }
+  .sidebar-admin li:active {
+    color: gray;
+  }
+
+
+  
+  .content-admin {
+    width: 100%;
+    height: 1000px;
+    flex: 1;
+    padding: 20px;
+    background-color: var(--primarycolor);
+  }
+  
+  h2 {
+    margin-top: 0;
+  }
+  
+
+.para-admin{
+    color: #646E73;
+    margin-bottom: 1.5rem;
+    font-size: 14px;
+}
+
+/*-----------------------------------*\
+  #Form add priducts
+\*-----------------------------------*/  
+.add-product-form-admin {
+    background-color: #141B1E; 
+    width: 45%;
+    padding: 18px;
+    margin-bottom: 3rem;
+    border-radius: 20px;
+    color: #fff; 
+  }
+  
+  /* Form Group */
+  .add-product-form-admin .form-group-admin {
+    margin-bottom: 1rem;
+  }
+  
+  /* Form labels */
+  .form-group-admin label {
+    font-weight: bold;
+    font-size: 14px;
+    color: #646E73; 
+    display: block;
+    margin-bottom: 8px;
+  }
+  
+  .form-group-admin input, textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 1rem;
+    font-size: 14px;
+    border: 1px solid var(--primarycolor);
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px var(--primarycolor);
+    background-color: var(--primarycolor); 
+    color: #fff; 
+    transition: border-color 0.3s ease;
+  }
+  
+   input:focus, textarea:focus {
+    border-color: var(--secandarycolor);
+    border-collapse: collapse;
+    outline: none;
+  }
+  
+  /* Textarea */
+  .form-group-admin textarea {
+    resize: vertical;
+    height: 100px;
+  }
+
+  
+  /* Form validation text */
+  .error-message {
+    color: #ff4d4d;
+    font-size: 12px;
+    margin-top: 5px;
+  }
+
+  .h2-admin{
+    color: white;
+    margin-bottom: 1rem;
+  }
+
+.qtyCaty-admin{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.addprobtn-admin{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+.btn-publish-cancel-admin{
+    display: flex;
+    justify-content: space-between;
+    width: 30%;
+}
+.addprobtn-admin button{
+    padding: 12px;
+    font-size: 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    background-color: orangered;
+    border-radius: 17px;
+    width: 85%;
+    color: white;
+    margin: 0.5rem;
+}
+.addprobtn-admin button:hover{
+    background-color: var(--btncolor);
+}
+.addprobtn-admin .cancel-admin{
+    background-color: var(--primarycolor);
+    border-radius: 17px;
+    width: 70%;
+    color: var(--secandarycolor);
+    border: 1px solid var(--secandarycolor);
+}
+.addprobtn-admin .cancel-admin:hover{
+  background-color: var(--secandarycolor);
+  color: white;
+}
+
+.add-product-admin{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 6rem;
+}
+.add-image-product-admin{
+    background-color: var(--darkcolor);
+    height: 350px;
+    border-radius: 20px;
+    padding: 18px;
+    width: 100%;
+    color: var(--secandarycolor);
+}
+.apload-info-admin{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+.upload-img-product-admin{
+    cursor: pointer;
+    text-align: center;
+    position: relative;
+}
+.upload-img-product-admin h3{
+    color: var(--btncolor);
+}
+
+.add-image-product-admin p{
+    text-align: center;
+    bottom: 0;
+}
+
+  /* Tooltip styling */
+/* Base style for the icon */
+.info-icon {
+    position: relative;
+    cursor: pointer;
+    font-size: 20px;
+    color: #555;
+  }
+  
+  /* Tooltip styling */
+  .info-icon::after {
+    content: attr(data-tooltip); /* Use the data-tooltip attribute for content */
+    position: absolute;
+    bottom: 125%; /* Position the tooltip above the icon */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.85); /* Tooltip background color */
+    color: #fff; /* Tooltip text color */
+    padding: 10px 15px; /* Padding inside the tooltip */
+    border-radius: 6px; /* Rounded corners */
+    font-size: 14px; /* Font size for tooltip text */
+    line-height: 1.5;
+    white-space: normal; /* Allows text wrapping */
+    max-width: 250px; /* Set a max-width for readability */
+    text-align: center; /* Center-align text */
+    opacity: 0; /* Hidden by default */
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out;
+    z-index: 1000; /* Bring tooltip above other content */
+  }
+  
+  /* Tooltip arrow */
+  .info-icon::before {
+    content: "";
+    position: absolute;
+    bottom: 110%; /* Position arrow just below the tooltip */
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 6px;
+    border-style: solid;
+    border-color: rgba(0, 0, 0, 0.85) transparent transparent transparent; /* Arrow pointing down */
+    opacity: 0; /* Initially hidden */
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out;
+  }
+  
+  /* Show tooltip on hover */
+  .info-icon:hover::after,
+  .info-icon:hover::before {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+
+  .img-upload-file-admin{
+    font-size: 100px;
+  }
+
+  .images-uploads{
+    display: flex;
+    align-items: center;
+  }
+  .image-UP-admin{
+    position: relative;
+    background-color: var(--darkcolor);
+    border-radius: 20px;
+    height: 100px;
+    width: 100%;
+    margin: 1rem;
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+  }
+
+  .add-images-admin{
+    width: 53%;
+  }
+
+  .image-upload-file-admin {
+    font-size: 22px;
+    color: var(--secandarycolor);
+    text-align: center;
+}
+
+.upload-area {
+    width: 100%;
+    height: 100px;
+    border: 2px dashed #ccc;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #555;
+    position: relative;
+    transition: background-color 0.3s;
+  }
+  
+  .upload-area:hover {
+    background-color: #f9f9f9;
+  }
+
+  .uploaded-image {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 20px;
+    width: 100%;
+    height: 80px;
+  }
+  
+  .content-uploadfile-info-admin{
+    height: 270px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .delete-icon-admin{
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    color: orangered;
+    font-size: 20px;
+    cursor: pointer;
+  }
+
+
+  /* Category */
+  .uploaded-image-category{
+    width: 100%;
+    height: 260px;
+    border-radius: 20px;
+  }
+
+  .product-list-admin-page{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--darkcolor);
+    padding: 1rem;
+    margin: 1rem;
+    border-radius: 20px;
+    color: white;
+  }
+
+  .btn-trash-product-adminpage{
+    background-color: #ff4d4d;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    transition: 0.2s;
+    margin-left: 0.5rem;
+  }
+  .btn-view-product-adminpage{
+    background-color: deepskyblue;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    transition: 0.2s;
+  }
+  .btn-view-product-adminpage:hover{
+    background-color: blue;
+  }
+  .btn-trash-product-adminpage:hover{
+    background-color: red;
+  }
+  .btn-actions-adminpage{
+    display: flex;
+  }
+  .types-adminpage{
+    background-color: green;
+    color: greenyellow;
+    text-align: center;
+    padding: 0.2rem 1rem;
+    border-radius: 20px;
+    border: 1px solid greenyellow;
+    font-size: 15px;
+  }
+
+  /* General table styling */
+table {
+  width: 100%;
+  border-radius: 20px;
+  border-collapse: collapse;
+  font-family: Arial, sans-serif;
+  margin-top: 20px;
+}
+
+th, td {
+  padding: 12px 15px;
+  text-align: center;
+}
+
+/* Header styling */
+th {
+  background-color: orangered; /* Green background */
+  color: white; /* White text */
+  font-weight: bold;
+}
+
+/* Row styling */
+table tr {
+  background-color: var(--darkcolor); /* Alternate row color */
+  color: white;
+  border-bottom: 1px solid var(--primarycolor);
+}
+
+tr:hover {
+  background-color: var(--primarycolor); /* Hover effect */
+}
+
+/* Image styling */
+td img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+/* Actions button styling */
+.btn-trash-product-adminpage {
+  background-color: #ff4d4d; /* Red background */
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  cursor: pointer;
+  border-radius: 20px;
+}
+
+.btn-trash-product-adminpage i {
+  font-size: 16px;
+}
+
+.btn-trash-product-adminpage:hover {
+  background-color: #ff1a1a; /* Darker red on hover */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  td, th {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  td img {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+
+/* Admin */
+.menu-button-adminpage{
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 16px;
+  width: 100%;
+}
+
+.dropdown-adminpage{
+  position: absolute;
+  right: 25px;
+  top: 75px;
+  width: 15%;
+  background-color: var(--primarycolor);
+  padding: 0.7rem;
+  border-radius: 10px;
+  border: 1px solid var(--darkcolor);
+  box-shadow: 0px 0px 10px var(--darkcolor);
+}
+.img-admintoggle-adminpage{
+  width: 20%;
+  height: 40px;
+  border-radius: 50px;
+  margin-right: 1rem;
+  cursor: pointer;
+}
+.menu-list-adminpage li{
+  padding: 1rem;
+}
+.menu-list-adminpage li:hover{
+  background-color: var(--darkcolor);
+  border-radius: 10px;
+  cursor: pointer;
+}
+.admintoggle-adminpage{
+  margin-right: 3rem;
+  width: 15%;
+  display: flex;
+  align-items: start;
+  justify-content: end;
+}
+.home-adminpage{
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+
+
+.user-account-container {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: var(--darkcolor);
+  color: white;
+  border-radius: 20px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+}
+
+.user-account-container h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: white;
+}
+
+.account-details label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0;
+  color: white;
+}
+
+.account-details label span {
+  font-weight: 500;
+}
+
+.account-details input[type="text"],
+.account-details input[type="email"] {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 5px;
+  width: 60%;
+  font-size: 16px;
+}
+
+.account-details input[type="text"]:focus,
+.account-details input[type="email"]:focus {
+  outline: none;
+  border-color: var(--btncolor);
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.edit-button {
+  background-color: transparent;
+  color: var(--secandarycolor);
+  border: 1px solid var(--secandarycolor);
+  padding: 10px 15px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.edit-button:hover {
+  background-color: var(--secandarycolor);
+  color: white;
+}
+
+/* Logout button styling */
+.logout-button {
+  background-color: #ff4d4f;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.logout-button:hover {
+  background-color: #ff7875;
+}
