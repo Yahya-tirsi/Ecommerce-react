@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import Product from "./product";
+// import Product from "./product";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -21,7 +21,7 @@ function Products({ category }) {
         .then((data) => setGetdataproducts(data));
     }, []);
 
- 
+
     // shoping product
     const handleChangePage = (nom,price,img1) => {
       axios
@@ -102,9 +102,9 @@ function Products({ category }) {
                       </div>
 
                       <h3 className="h3">
-                        <a href="#" className="card-title">
+                        <Link to="#" className="card-title">
                           {eo.name}
-                        </a>
+                        </Link>
                       </h3>
 
                       <data className="card-price" value={eo.price}>

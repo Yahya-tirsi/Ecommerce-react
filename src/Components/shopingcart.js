@@ -12,12 +12,11 @@ function Shopingcart() {
   const [margin, setMargin] = useState("relative");
   // Show message delete
   const [isModalOpen, setIsModalOpen] = useState(false);
+  // Change list item and grid item
+  const [listitem, setlistitem] = useState("product-list");
 
   // Total Price calculation
-  const totalPrice = cart.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0
-  );
+  const totalPrice = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   useEffect(() => {
     getdata();
@@ -74,16 +73,29 @@ function Shopingcart() {
               <i
                 style={{ color: "orangered" }}
                 class="fa-solid fa-circle-check"
-              ></i>{" "}
-              Select all items
+              ></i>
             </p>
             <p id="delete-url-shopingcart" onClick={() => setIsModalOpen(true)}>
-              Delete selected items
+              Delete all items
             </p>
+            <i
+              class="fa-solid fa-list items-grid-list-shopingcart"
+              onClick={() => setlistitem("listItem")}
+              title="List items"
+            ></i>
+            <i
+              class="fa-solid fa-border-all items-grid-list-shopingcart"
+              onClick={() => setlistitem("product-list")}
+              title="Grid items"
+            ></i>
           </div>
         </div>
         <div className="cart-wrapper">
-          <div className="product-list">
+          <div
+            className={
+              listitem === "product-list" ? "product-list" : "listItem"
+            }
+          >
             {cart.length === 0 ? (
               <>
                 <img
@@ -153,10 +165,10 @@ function Shopingcart() {
         </div>
         <div className="cart-pay-shopingcart">
           <h2>Pay with</h2>
-          <img src={`${process.env.PUBLIC_URL}/payment.png`} />
+          <img src={`${process.env.PUBLIC_URL}/payment.png`} alt=""/>
           <hr></hr>
           <h3>
-            <i style={{ color: "orangered" }} class="fa-solid fa-check"></i>{" "}
+            <i style={{ color: "orangered" }} class="fa-solid fa-check"></i>
             Buyer protection
           </h3>
           <p>

@@ -1743,7 +1743,6 @@ body {
   flex-direction: row;
   justify-content: space-between;
   width: 100%;
-  max-width: 1200px;
 }
 
 /* Product List */
@@ -1757,6 +1756,25 @@ body {
   border-radius: 10px;
   width: 74%;
 }
+.listItem{
+  position: relative;
+  display: grid;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  gap: 20px;
+  border-radius: 10px;
+  width: 74%;
+}
+.items-grid-list-shopingcart{
+  margin-left: 1rem;
+  transition: 0.3s;
+  cursor: pointer;
+  font-size: 17px;
+}
+.items-grid-list-shopingcart:hover{
+  color: orangered;
+}
+
 .empty-cart-shoping-cart {
   position: absolute;
   top: 20px;
@@ -1780,8 +1798,8 @@ body {
 }
 
 .product-image-shopingcart .product-img-shopingcart {
-  width: 90px;
-  height: 90px;
+  width: 100px;
+  height: 180px;
   object-fit: cover;
   border-radius: 8px;
 }
@@ -1830,6 +1848,8 @@ body {
 .btnQTE-shopingcart {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  width: 100%;
   margin-right: 0.4rem;
 }
 
@@ -1848,11 +1868,14 @@ body {
 
 /* Cart Summary */
 .cart-summary-shopingcart {
+  position: sticky;
+  top: 0;
   background-color: #fff;
   border-radius: 8px;
   padding: 20px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   width: 25%;
+  height: 210px;
 }
 
 .cart-summary h2 {
@@ -1907,7 +1930,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 97%;
+  width: 100%;
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   padding: 1.5rem;
@@ -1919,7 +1942,7 @@ body {
 }
 #delete-url-shopingcart{
   color: orangered;
-  margin-left: 2rem;
+  margin-left: 1rem;
   text-decoration: underline;
 
 }
@@ -1932,13 +1955,18 @@ body {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   padding: 0.5rem;
 }
-@media (max-width: 768px) {
+
+@media (max-width: 1065px) {
   .cart-wrapper {
     flex-direction: column;
     align-items: center;
     width: 100%;
   }
 
+  /* Hide icons (Grid and List) */
+  .items-grid-list-shopingcart{
+    display: none;
+  }
   .product-list {
     grid-template-columns: 1fr;
     width: 100%;

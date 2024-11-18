@@ -402,6 +402,7 @@
     padding: 0.5rem 1rem;
     border-radius: 20px;
     transition: 0.2s;
+    margin-left: 0.5rem;
   }
   .btn-view-product-adminpage:hover{
     background-color: blue;
@@ -543,8 +544,6 @@ td img {
 }
 
 
-
-
 .user-account-container {
   max-width: 500px;
   margin: 0 auto;
@@ -623,4 +622,16 @@ td img {
 
 .logout-button:hover {
   background-color: #ff7875;
+}
+
+.top-add-shopingcart{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.top-add-shopingcart button{
+  background-color: orangered;
+  color: white;
+  padding: 0.5rem 2rem;
+  border-radius: 10px;
 }

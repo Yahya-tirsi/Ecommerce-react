@@ -1,7 +1,8 @@
 import React, { createContext, useEffect, useState } from "react";
 import "./AdminPage.css";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import ConfermationDeleteModal from "./ConfirmationDeleteModal";
 
 export const SendData = createContext();
 
@@ -20,6 +21,7 @@ function AdminPage() {
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
+
   return (
     <div className="admin-page">
       <nav className="navbar-admin">
@@ -133,7 +135,6 @@ function Acount() {
     setIsEditing(!isEditing);
   };
 
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setUser({ ...user, [name]: value });
@@ -210,76 +211,119 @@ function Home() {
   );
 }
 
+
 function ProductList() {
-  const [getdata, setGetdata] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [productToDelete, setProductToDelete] = useState(null);
 
-  useEffect(() => {
-    deleteProduct();
-  }, []);
-
-  // function get products
-  const deleteProduct = () => {
+  // Fetch products
+  const fetchProducts = () => {
     fetch("http://localhost:3001/products/")
-      .then((reponse) => reponse.json())
-      .then((data) => setGetdata(data));
+      .then((response) => response.json())
+      .then((data) => setProducts(data))
+      .catch((error) => console.error("Error fetching products:", error));
   };
 
-  const handleDelete = (eo) => {
-    alert(`Are you shure you want to delete product id : ${eo}`);
-    fetch(`http://localhost:3001/products/${eo}`, { method: "DELETE" })
-      .then((reponse) => reponse.json())
-      .then((data) => deleteProduct());
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  // Handle delete product
+  const handleDelete = () => {
+    if (productToDelete) {
+      fetch(`http://localhost:3001/products/${productToDelete}`, {
+        method: "DELETE",
+      })
+        .then((response) => response.json())
+        .then(() => {
+          fetchProducts();
+          setIsModalOpen(false);
+          setProductToDelete(null);
+        })
+        .catch((error) => console.error("Error deleting product:", error));
+    }
   };
 
   return (
     <div>
-      <h2 className="h2-admin">Product List</h2>
+      <div className="top-add-shopingcart">
+        <h2 className="h2-admin">Product List</h2>
+        <button>
+          <i className="fa-solid fa-plus"></i> Add product
+        </button>
+      </div>
       <table>
-        <tr>
-          <th>Image</th>
-          <th>Id</th>
-          <th>Types</th>
-          <th>Nom</th>
-          <th>Price</th>
-          <th>Discount</th>
-          <th>Category</th>
-          <th>Description</th>
-          <th>Actions</th>
-        </tr>
-        {getdata.map((eo) => (
+        <thead>
           <tr>
-            <td>
-              <img src={eo.imgProduct.img1} alt={eo.imgProduct.img1} />
-            </td>
-            <td>#{eo.id}</td>
-            <td>
-              <div className="types-adminpage">Active</div>
-            </td>
-            <td>{eo.name}</td>
-            <td>MAD {eo.price}</td>
-            <td>{eo.discount} %</td>
-            <td>{eo.category}</td>
-            <td>{eo.description.slice(200)}...</td>
-
-            {/* <button></button> */}
-            <td>
-              <div className="btn-actions-adminpage">
-                <button class="btn-view-product-adminpage">
-                  <i style={{ color: "white" }} class="fa-solid fa-eye"></i>
-                </button>
-                <button
-                  class="btn-trash-product-adminpage"
-                  onClick={() => {
-                    handleDelete(eo.id);
-                  }}
-                >
-                  <i style={{ color: "white" }} class="fa-solid fa-trash"></i>
-                </button>
-              </div>
-            </td>
+            <th>Image</th>
+            <th>Id</th>
+            <th>Types</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Discount</th>
+            <th>Category</th>
+            <th>Description</th>
+            <th>Actions</th>
           </tr>
-        ))}
+        </thead>
+        <tbody>
+          {products.map((product) => (
+            <tr key={product.id}>
+              <td>
+                <img
+                  src={product.imgProduct?.img1}
+                  alt={product.name}
+                  style={{ width: "50px", height: "50px" }}
+                />
+              </td>
+              <td>#{product.id}</td>
+              <td>
+                <div className="types-adminpage">Active</div>
+              </td>
+              <td>{product.name}</td>
+              <td>MAD {product.price}</td>
+              <td>{product.discount} %</td>
+              <td>{product.category}</td>
+              <td>{product.description.slice(0, 200)}...</td>
+              <td>
+                <div className="btn-actions-adminpage">
+                  <button
+                    className="btn-view-product-adminpage"
+                    title="Update product"
+                  >
+                    <i className="fa-solid fa-pen-to-square" style={{ color: "white" }}></i>
+                  </button>
+                  <button
+                    className="btn-view-product-adminpage"
+                    title="View Product"
+                  >
+                    <i className="fa-solid fa-eye" style={{ color: "white" }}></i>
+                  </button>
+                  <button
+                    className="btn-trash-product-adminpage"
+                    onClick={() => {
+                      setProductToDelete(product.id);
+                      setIsModalOpen(true);
+                    }}
+                    title="Delete Product"
+                  >
+                    <i className="fa-solid fa-trash" style={{ color: "white" }}></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
       </table>
+
+      {isModalOpen && (
+        <ConfermationDeleteModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          onConfirm={handleDelete}
+        />
+      )}
     </div>
   );
 }
@@ -293,8 +337,6 @@ function AddProduct() {
     img3: "",
     img4: "",
   });
-
-  console.log(fileImage);
 
   // Create Hooks to send data
   const [name, setName] = useState("");
