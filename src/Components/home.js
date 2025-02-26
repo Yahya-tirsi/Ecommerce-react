@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import "../App.css";
-import Data from "./data";
 
 function Home() {
   return (

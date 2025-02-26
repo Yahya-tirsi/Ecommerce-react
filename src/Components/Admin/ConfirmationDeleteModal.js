@@ -7,8 +7,8 @@ function ConfermationDeleteModal({ isOpen, onClose, onConfirm }) {
     <div className="modal-overlay">
       <div className="modal-content">
         <button className="modal-close" onClick={onClose}>×</button>
-        <h2>Remove all</h2>
-        <p>This action will remove these items from your shopping cart.</p>
+        <h2>Remove</h2>
+        <p>This action will remove this product from your list products.</p>
         <div className="modal-actions">
           <button className="modal-remove-btn" onClick={onConfirm}>
             Remove

@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Navbar from "./navbar";
 
@@ -12,7 +12,7 @@ function CategoryProducts() {
 
 // Get produts data from API 
   useEffect(() => {
-    fetch("http://localhost:3001/products")
+    fetch("http://localhost:5000/api/produits")
       .then((response) => response.json())
       .then((data) => setGetdataproducts(data));
   }, []);
@@ -98,9 +98,9 @@ function CategoryProducts() {
                   </div>
 
                   <h3 className="h3">
-                    <a href="#" className="card-title">
+                    <Link to="#" className="card-title">
                       {eo.name}
-                    </a>
+                    </Link>
                   </h3>
 
                   <data className="card-price" value={eo.price}>

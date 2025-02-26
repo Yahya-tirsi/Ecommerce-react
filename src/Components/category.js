@@ -6,7 +6,7 @@ function Category() {
   const [getdatacategories,setGetdatacategories] = useState([]);
   
   useEffect(() => {
-    fetch("http://localhost:3001/category")
+    fetch("http://localhost:5000/api/categories")
       .then((response) => response.json())
       .then((data) => setGetdatacategories(data))
   },[]);
@@ -29,7 +29,7 @@ function Category() {
                       style={{ "--width": "330", "--height": "300" }}
                     >
                       <img
-                        src={`${process.env.PUBLIC_URL}/${eo.imageCategory}`}
+                        src={eo.imageCategory}
                         width="330"
                         height="300"
                         loading="lazy"

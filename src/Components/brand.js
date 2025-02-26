@@ -32,7 +32,7 @@ function Brand(){
 
             <li class="scrollbar-item">
               <div class="brand-card img-holder" style={{width: "150", height: "150"}}>
-                <img src={`${process.env.PUBLIC_URL}/brand4.svg`} width="150" height="150" loading="lazy" alt="brand logo"
+                <img src={`${process.env.PUBLIC_URL}/Eastpak_logo.png`} width="150" height="150" loading="lazy" alt="brand logo"
                   class="img-cover" />
               </div>
             </li>

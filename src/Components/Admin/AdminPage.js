@@ -3,6 +3,8 @@ import "./AdminPage.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import ConfermationDeleteModal from "./ConfirmationDeleteModal";
+import { formatDistanceToNow } from "date-fns";
+import { fr } from "date-fns/locale";
 
 export const SendData = createContext();
 
@@ -105,6 +107,16 @@ function AdminPage() {
               <i class="fa-solid icon-admin fa-folder-plus"></i>
               Add Category
             </li>
+            <p className="para-admin">Orders</p>
+            <li onClick={() => setActiveSection("commandesList")}>
+              <i class="fa-solid icon-admin fa-folder-plus"></i>
+              Orders list
+            </li>
+            <p className="para-admin">Users</p>
+            <li onClick={() => setActiveSection("userList")}>
+              <i class="fa-solid icon-admin fa-folder-plus"></i>
+              Users list
+            </li>
           </ul>
         </aside>
 
@@ -113,17 +125,17 @@ function AdminPage() {
           {activeSection === "addProduct" && <AddProduct />}
           {activeSection === "categoryList" && <CategoryList />}
           {activeSection === "addCategory" && <AddCategory />}
+          {activeSection === "commandesList" && <CommandesList />}
+          {activeSection === "userList" && <UserList />}
           {activeSection === "home" && <Home />}
           {activeSection === "acount" && <Acount />}
+          {activeSection === "oders-user" && <OrdersUsers />}
         </main>
       </div>
     </div>
   );
 }
 
-function ddd(){
-  return
-}
 // Components for each section
 function Acount() {
   const [isEditing, setIsEditing] = useState(false);
@@ -145,7 +157,7 @@ function Acount() {
 
   function handleLogout() {
     localStorage.removeItem("isAuthenticated");
-    navigate("/login");
+    navigate("/login-admin");
   }
 
   return (
@@ -210,19 +222,23 @@ function Home() {
       <h1 className="h2-admin">
         Welcome Back <span style={{ color: "orangered" }}>Yahya</span>
       </h1>
+      <div>
+        <div></div>
+        <div></div>
+      </div>
     </div>
   );
 }
-
 
 function ProductList() {
   const [products, setProducts] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [productToDelete, setProductToDelete] = useState(null);
+  const [isAddingProduct, setIsAddingProduct] = useState(false);
 
   // Fetch products
   const fetchProducts = () => {
-    fetch("http://localhost:3001/products/")
+    fetch("http://localhost:5000/api/produits")
       .then((response) => response.json())
       .then((data) => setProducts(data))
       .catch((error) => console.error("Error fetching products:", error));
@@ -235,7 +251,7 @@ function ProductList() {
   // Handle delete product
   const handleDelete = () => {
     if (productToDelete) {
-      fetch(`http://localhost:3001/products/${productToDelete}`, {
+      fetch(`http://localhost:5000/api/produits/${productToDelete}`, {
         method: "DELETE",
       })
         .then((response) => response.json())
@@ -250,76 +266,88 @@ function ProductList() {
 
   return (
     <div>
-      <div className="top-add-shopingcart">
-        <h2 className="h2-admin">Product List</h2>
-        <button>
-          <i className="fa-solid fa-plus"></i> Add product
-        </button>
-      </div>
-      <table>
-        <thead>
-          <tr>
-            <th>Image</th>
-            <th>Id</th>
-            <th>Types</th>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Discount</th>
-            <th>Category</th>
-            <th>Description</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {products.map((product) => (
-            <tr key={product.id}>
-              <td>
-                <img
-                  src={product.imgProduct?.img1}
-                  alt={product.name}
-                  style={{ width: "50px", height: "50px" }}
-                />
-              </td>
-              <td>#{product.id}</td>
-              <td>
-                <div className="types-adminpage">Active</div>
-              </td>
-              <td>{product.name}</td>
-              <td>MAD {product.price}</td>
-              <td>{product.discount} %</td>
-              <td>{product.category}</td>
-              <td>{product.description.slice(0, 200)}...</td>
-              <td>
-                <div className="btn-actions-adminpage">
-                  <button
-                    className="btn-view-product-adminpage"
-                    title="Update product"
-                  >
-                    <i className="fa-solid fa-pen-to-square" style={{ color: "white" }}></i>
-                  </button>
-                  <button
-                    className="btn-view-product-adminpage"
-                    title="View Product"
-                  >
-                    <i className="fa-solid fa-eye" style={{ color: "white" }}></i>
-                  </button>
-                  <button
-                    className="btn-trash-product-adminpage"
-                    onClick={() => {
-                      setProductToDelete(product.id);
-                      setIsModalOpen(true);
-                    }}
-                    title="Delete Product"
-                  >
-                    <i className="fa-solid fa-trash" style={{ color: "white" }}></i>
-                  </button>
-                </div>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-
+      {isAddingProduct ? (
+        <AddProduct />
+      ) : (
+        <div>
+          <div className="top-add-shopingcart">
+            <h2 className="h2-admin">Product List</h2>
+            <button onClick={() => setIsAddingProduct(true)}>
+              <i className="fa-solid fa-plus"></i> Add product
+            </button>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Image</th>
+                <th>Types</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Discount</th>
+                <th>Category</th>
+                <th>Description</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {products.map((product) => (
+                <tr key={product._id}>
+                  <td>
+                    <img
+                      src={product.img_produit?.img1}
+                      alt={product.name}
+                      style={{ width: "50px", height: "50px" }}
+                    />
+                  </td>
+                  <td>
+                    <div className="types-adminpage">Active</div>
+                  </td>
+                  <td title={product.name}>{product.name.slice(0, 5)}...</td>
+                  <td>{product.price} DH</td>
+                  <td>{product.discount} %</td>
+                  <td>{product.categorie}</td>
+                  <td title={product.desc}>{product.desc.slice(0, 10)}...</td>
+                  <td>
+                    <div className="btn-actions-adminpage">
+                      <button
+                        className="btn-view-product-adminpage"
+                        title="Update product"
+                      >
+                        <i
+                          className="fa-solid fa-pen-to-square"
+                          style={{ color: "white" }}
+                        ></i>
+                      </button>
+                      <button
+                        className="btn-view-product-adminpage"
+                        title="View Product"
+                      >
+                        <i
+                          className="fa-solid fa-eye"
+                          style={{ color: "white" }}
+                        ></i>
+                      </button>
+                      <button
+                        className="btn-trash-product-adminpage"
+                        onClick={() => {
+                          setProductToDelete(product._id);
+                          setIsModalOpen(true);
+                        }}
+                        title="Delete Product"
+                      >
+                        <i
+                          className="fa-solid fa-trash"
+                          style={{ color: "white" }}
+                        ></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
       {isModalOpen && (
         <ConfermationDeleteModal
           isOpen={isModalOpen}
@@ -352,70 +380,69 @@ function AddProduct() {
   const [imageCategory, setImagecategory] = useState("");
 
   // Send data to API
-  function sendInfoproduct() {
+  function sendInfoproduct(event) {
+    event.preventDefault();
     const imgProduct = ["img1", "img2", "img3", "img4"]
-      .filter((imgKey) => fileImage[imgKey]) // Filter out empty images
+      .filter((imgKey) => fileImage[imgKey])
       .map((imgKey) => URL.createObjectURL(fileImage[imgKey]));
 
     axios
-      .post("http://localhost:3001/products/", {
+      .post("http://localhost:5000/api/produits", {
         name: name,
-        imgProduct: imgProduct,
-        qte: qte,
+        img_produit: imgProduct,
+        qte_produit: qte,
         discount: discount,
-        description: description,
-        category: category,
+        desc: description,
+        categorie: category,
         price: price,
       })
       .then((data) => console.log(data));
 
-    alert("Produit ajouter avec succe");
-    cancelProductinfoimg();
+    cancelAllImages();
+    console.log("Product added!");
   }
 
-  // Function drag and drop file
-  function addImage(eo) {
+  function handleImageUpload(eo) {
     eo.preventDefault();
-    const droppedFile = eo.dataTransfer.files[0];
 
-    if (droppedFile && droppedFile.type.startsWith("image/")) {
-      // Find the first empty image slot
+    // Récupérer le fichier en fonction de la méthode d'entrée (glisser-déposer ou sélection via input)
+    const file =
+      eo.type === "drop" ? eo.dataTransfer.files[0] : eo.target.files[0];
+
+    if (file && file.type.startsWith("image/")) {
       for (let i = 1; i <= 4; i++) {
         if (!fileImage[`img${i}`]) {
           setFileImage((prevState) => ({
             ...prevState,
-            [`img${i}`]: droppedFile,
+            [`img${i}`]: file,
           }));
           break;
         }
       }
     } else {
-      alert("Please upload a valid image file.");
+      alert("Veuillez télécharger un fichier image valide.");
     }
   }
 
-  // Prevent default handling for drag events
-  function handleDragOver(event) {
-    event.preventDefault();
+  function handleDragOver(eo) {
+    eo.preventDefault();
   }
 
   function deleteImage(imgKey) {
     setFileImage((prevState) => ({
       ...prevState,
-      [imgKey]: "",
+      [imgKey]: null,
     }));
   }
 
-  // function cancel product
-  function cancelProductinfoimg() {
-    for (let i = 1; i <= 4; i++) {
-      if (fileImage[`img${i}`]) {
-        setFileImage((prevState) => ({
-          ...prevState,
-          [`img${i}`]: null,
-        }));
-      }
-    }
+  // Fonction pour annuler toutes les images téléchargées
+  function cancelAllImages() {
+    setFileImage({
+      img1: null,
+      img2: null,
+      img3: null,
+      img4: null,
+    });
     setInputValue("");
   }
 
@@ -439,7 +466,7 @@ function AddProduct() {
           <button
             className="cancel-admin"
             onClick={() => {
-              cancelProductinfoimg();
+              cancelAllImages();
             }}
           >
             Cancel
@@ -568,7 +595,7 @@ function AddProduct() {
               <div className="content-uploadfile-info-admin">
                 <div
                   className="upload-img-product-admin"
-                  onDrop={addImage}
+                  onDrop={handleImageUpload}
                   onDragOver={handleDragOver}
                 >
                   {file ? (
@@ -598,7 +625,7 @@ function AddProduct() {
           <div className="images-uploads">
             <div
               className="image-UP-admin"
-              onDrop={addImage}
+              onDrop={handleImageUpload}
               onDragOver={handleDragOver}
             >
               {["img1", "img2", "img3", "img4"].map((imgKey) => (
@@ -630,6 +657,8 @@ function AddProduct() {
 
 function CategoryList() {
   const [getdata, setGetdata] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [productToDelete, setProductToDelete] = useState(null);
 
   useEffect(() => {
     deleteProduct();
@@ -637,16 +666,19 @@ function CategoryList() {
 
   // function get products
   const deleteProduct = () => {
-    fetch("http://localhost:3001/category/")
+    fetch("http://localhost:5000/api/categories")
       .then((reponse) => reponse.json())
       .then((data) => setGetdata(data));
+    setIsModalOpen(false);
   };
 
-  const handleDelete = (eo) => {
-    alert(`Are you shure you want to delete product id : ${eo}`);
-    fetch(`http://localhost:3001/category/${eo}`, { method: "DELETE" })
-      .then((reponse) => reponse.json())
-      .then((data) => deleteProduct());
+  const handleDelete = () => {
+    if (productToDelete) {
+      fetch(`http://localhost:5000/api/categories/${productToDelete}`, { method: "DELETE" })
+        .then((reponse) => reponse.json())
+        .then((data) => deleteProduct());
+        setProductToDelete(null);
+    }
   };
   return (
     <div>
@@ -655,9 +687,9 @@ function CategoryList() {
         <table>
           <tr>
             <th>Image</th>
-            <th>Id</th>
             <th>Types</th>
             <th>Name</th>
+            <th>Description</th>
             <th>Actions</th>
           </tr>
           {getdata.map((eo) => (
@@ -665,11 +697,11 @@ function CategoryList() {
               <td>
                 <img src={eo.imageCategory} alt={eo.imageCategory} />
               </td>
-              <td>#{eo.id}</td>
               <td>
                 <div className="types-adminpage">Active</div>
               </td>
               <td>{eo.nameCategory}</td>
+              <td title={eo.description}>{eo.description.slice(0, 16)}...</td>
               {/* <button></button> */}
               <td>
                 <div className="btn-actions-adminpage">
@@ -679,13 +711,210 @@ function CategoryList() {
                   <button
                     class="btn-trash-product-adminpage"
                     onClick={() => {
-                      handleDelete(eo.id);
+                      setProductToDelete(eo._id);
+                      setIsModalOpen(true);
                     }}
                   >
                     <i style={{ color: "white" }} class="fa-solid fa-trash"></i>
                   </button>
                 </div>
               </td>
+            </tr>
+          ))}
+        </table>
+      </div>
+      {isModalOpen && (
+        <ConfermationDeleteModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          onConfirm={handleDelete}
+        />
+      )}
+    </div>
+  );
+}
+
+function CommandesList() {
+  const [getdata, setGetdata] = useState([]);
+
+  useEffect(() => {
+    deleteProduct();
+  }, []);
+
+  // function get products
+  const deleteProduct = () => {
+    fetch("http://localhost:5000/api/commandes")
+      .then((reponse) => reponse.json())
+      .then((data) => setGetdata(data));
+  };
+
+  const handleDelete = (eo) => {
+    alert(`Are you shure you want to delete product id : ${eo}`);
+    fetch(`http://localhost:5000/api/commandes/${eo}`, { method: "DELETE" })
+      .then((reponse) => reponse.json())
+      .then((data) => deleteProduct());
+  };
+
+  return (
+    <div>
+      <div>
+        <h2 className="h2-admin">Commandes List</h2>
+        <table>
+          <tr>
+            <th>User</th>
+            <th>Status</th>
+            <th>Total price</th>
+            <th>Created At</th>
+            <th>Actions</th>
+          </tr>
+          {getdata.map((eo) => (
+            <tr>
+              <td>{eo.client.username}</td>
+              <td>
+                <div className="types-adminpage">{eo.status}</div>
+              </td>
+              <td>{eo.totalPrice} DH</td>
+              <td>
+                {formatDistanceToNow(new Date(eo.createdAt), {
+                  addSuffix: true,
+                  locale: fr,
+                })}
+              </td>
+
+              {/* <button></button> */}
+              <td>
+                <div className="btn-actions-adminpage">
+                  <button class="btn-view-product-adminpage">
+                    <i style={{ color: "white" }} class="fa-solid fa-eye"></i>
+                  </button>
+                  <button
+                    class="btn-trash-product-adminpage"
+                    onClick={() => {
+                      handleDelete(eo._id);
+                    }}
+                  >
+                    <i style={{ color: "white" }} class="fa-solid fa-trash"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          ))}
+        </table>
+      </div>
+    </div>
+  );
+}
+
+function OrdersUsers() {
+  const [getdata, setGetdata] = useState([]);
+
+  useEffect(() => {
+    deleteProduct();
+  }, []);
+
+  // function get products
+  const deleteProduct = () => {
+    fetch("http://localhost:5000/api/clients")
+      .then((reponse) => reponse.json())
+      .then((data) => setGetdata(data));
+  };
+
+  // const handleDelete = (eo) => {
+  //   alert(`Are you shure you want to delete product id : ${eo}`);
+  //   fetch(`http://localhost:5000/api/commandes/${eo}`, { method: "DELETE" })
+  //     .then((reponse) => reponse.json())
+  //     .then((data) => deleteProduct());
+  // };
+  return (
+    <div>
+      <div>
+        <h2 className="h2-admin">User {}</h2>
+        <table>
+          <tr>
+            <th>Username</th>
+            <th>Email</th>
+            {/* <th>Actions</th> */}
+          </tr>
+          {getdata.map((eo) => (
+            <tr>
+              <td>{eo.username}</td>
+              <td>{eo.email}</td>
+
+              {/* <button></button> */}
+              {/* <td>
+                <div className="btn-actions-adminpage">
+                  <button class="btn-view-product-adminpage">
+                    <i style={{ color: "white" }} class="fa-solid fa-eye"></i>
+                  </button>
+                  <button
+                    class="btn-trash-product-adminpage"
+                    onClick={() => {
+                      handleDelete(eo._id);
+                    }}
+                  >
+                    <i style={{ color: "white" }} class="fa-solid fa-trash"></i>
+                  </button>
+                </div>
+              </td> */}
+            </tr>
+          ))}
+        </table>
+      </div>
+    </div>
+  );
+}
+
+function UserList() {
+  const [getdata, setGetdata] = useState([]);
+
+  useEffect(() => {
+    deleteProduct();
+  }, []);
+
+  // function get products
+  const deleteProduct = () => {
+    fetch("http://localhost:5000/api/clients")
+      .then((reponse) => reponse.json())
+      .then((data) => setGetdata(data));
+  };
+
+  // const handleDelete = (eo) => {
+  //   alert(`Are you shure you want to delete product id : ${eo}`);
+  //   fetch(`http://localhost:5000/api/commandes/${eo}`, { method: "DELETE" })
+  //     .then((reponse) => reponse.json())
+  //     .then((data) => deleteProduct());
+  // };
+  return (
+    <div>
+      <div>
+        <h2 className="h2-admin">Users List</h2>
+        <table>
+          <tr>
+            <th>Username</th>
+            <th>Email</th>
+            {/* <th>Actions</th> */}
+          </tr>
+          {getdata.map((eo) => (
+            <tr>
+              <td>{eo.username}</td>
+              <td>{eo.email}</td>
+
+              {/* <button></button> */}
+              {/* <td>
+                <div className="btn-actions-adminpage">
+                  <button class="btn-view-product-adminpage">
+                    <i style={{ color: "white" }} class="fa-solid fa-eye"></i>
+                  </button>
+                  <button
+                    class="btn-trash-product-adminpage"
+                    onClick={() => {
+                      handleDelete(eo._id);
+                    }}
+                  >
+                    <i style={{ color: "white" }} class="fa-solid fa-trash"></i>
+                  </button>
+                </div>
+              </td> */}
             </tr>
           ))}
         </table>
@@ -702,31 +931,51 @@ function AddCategory() {
   const [imageUrl, setImageUrl] = useState(null);
   const [imageFile, setImageFile] = useState(null); // Store the image file for uploading
 
+  // Iamge liks for imgure
+  const [imgLink, setImgLink] = useState("");
+
+  // Alert succes message
+  const [sucesMessage, setsucesMessage] = useState(false);
+  // Alert danger message
+  const [dangererror, setdangererror] = useState(false);
+
   const handleImageChange = (event) => {
     setSelectedImage(event.target.files[0]);
   };
 
+  const handleChangeImage = (evt) => {
+    var file = evt.target.files[0];
+    const data = new FormData();
+    data.append("image", file);
+    const config = {
+      headers: {
+        Authorization: "Client-ID c18c5d2eda99431",
+      },
+    };
+    axios
+      .post("https://api.imgur.com/3/image", data, config)
+      .then((res) => {
+        console.log("imgur link image: " + res.data.data.link);
+        setImgLink(res.data.data.link);
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   // Upload Function to Send Data to API
   const handleUpload = async () => {
-    const formData = new FormData();
-    formData.append("image", imageFile); // Image file data
-    formData.append("nameCategory", inputValue);
-    formData.append("description", description);
-
     try {
-      const response = await axios.post(
-        "http://localhost:3001/category",
-        formData,
-        {
-          headers: { "Content-Type": "multipart/form-data" },
-        }
-      );
-      console.log(response.data);
-      alert("Category added successfully!");
-      setImageUrl(response.data.imageUrl); // Save the image URL from response
+      await axios.post("http://localhost:5000/api/categories", {
+        nameCategory: inputValue,
+        imageCategory: imgLink,
+        description: description,
+      });
+      setsucesMessage(!sucesMessage);
+      cancelProductInfo();
     } catch (error) {
-      console.error(error);
-      alert("Error adding category");
+      setdangererror(!dangererror);
     }
   };
 
@@ -773,24 +1022,23 @@ function AddCategory() {
   };
 
   // Handle form submit to add category
-  const sendProductInfo = () => {
-    handleUpload();
-    axios
-      .post("http://localhost:3001/category", {
-        nameCategory: inputValue,
-        description: description,
-        imageCategory: imageUrl,
-      })
-      .then((data) => {
-        console.log(data);
-        alert("Category added successfully!");
-        cancelProductInfo();
-      })
-      .catch((err) => {
-        console.error(err);
-        alert("Error adding category");
-      });
-  };
+  // const sendProductInfo = () => {
+  //   axios
+  //     .post("http://localhost:5000/api/categories", {
+  //       nameCategory: inputValue,
+  //       description: description,
+  //       imageCategory: imageUrl,
+  //     })
+  //     .then((data) => {
+  //       console.log(data);
+  //       alert("Category added successfully!");
+  //       cancelProductInfo();
+  //     })
+  //     .catch((err) => {
+  //       console.error(err);
+  //       alert("Error adding category");
+  //     });
+  // };
 
   return (
     <div>
@@ -800,7 +1048,7 @@ function AddCategory() {
           <button className="cancel-admin" onClick={cancelProductInfo}>
             Cancel
           </button>
-          <button onClick={sendProductInfo}>Publish Category</button>
+          <button onClick={handleUpload}>Publish Category</button>
         </div>
       </div>
       <div className="add-product-admin">
@@ -824,7 +1072,7 @@ function AddCategory() {
               <textarea
                 id="description"
                 name="description"
-                value={description} // Using description state for description field
+                value={description}
                 placeholder="Enter description"
                 onChange={handleDescriptionChange}
                 required
@@ -852,11 +1100,20 @@ function AddCategory() {
                   onDrop={addImage}
                   onDragOver={handleDragOver}
                   onChange={handleImageChange}
+                  onClick={() => document.getElementById("fileInput").click()}
                 >
-                  {file ? (
+                  <input
+                    type="file"
+                    id="fileInput"
+                    accept="image/*"
+                    onChange={handleChangeImage}
+                    style={{ display: "none" }}
+                  />
+
+                  {selectedImage ? (
                     <>
                       <img
-                        src={URL.createObjectURL(file)}
+                        src={URL.createObjectURL(selectedImage)}
                         alt="Uploaded Preview"
                         className="uploaded-image-category"
                       />
@@ -873,6 +1130,20 @@ function AddCategory() {
                     </>
                   )}
                 </div>
+                {/* Suces message when added category */}
+                {sucesMessage && (
+                  <div style={{ display: "flex", justifyContent: "center" }}>
+                    <div className="alert-category-added-sucecfully">
+                      ​✔️​ Category added successfully
+                    </div>
+                  </div>
+                )}
+                {/* danger message when added category */}
+                {dangererror && (
+                  <div className="alerte-erreur">
+                    ❌ Une erreur est survenue, veuillez réessayer !
+                  </div>
+                )}
               </div>
             </div>
           </div>

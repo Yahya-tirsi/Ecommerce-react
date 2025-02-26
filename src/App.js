@@ -10,7 +10,10 @@ import Cta from "./Components/cta";
 import Shopingcart from "./Components/shopingcart";
 import Footer from "./Components/footer";
 import Search from "./Components/search";
-import Login from "./Components/Login";
+import Login from "./Components/Auth/Login";
+import ForgotPassword from "./Components/Auth/ForgotPassword";
+import ResetPassword from "./Components/Auth/ResetPassword";
+import VerifyOTP from "./Components/Auth/VerifyOTP";
 import AdminPage from "./Components/Admin/AdminPage";
 import CategoryProducts from "./Components/CategoryProducts";
 import Products from "./Components/products";
@@ -18,6 +21,8 @@ import Category from "./Components/category";
 import Brand from "./Components/brand";
 import Servises from "./Components/servises";
 import ProtectedRoute from "./Components/ProtectedRoute";
+import Register from "./Components/Auth/Register";
+import Loginadmin from "./Components/Login";
 
 function App() {
   return (
@@ -45,7 +50,7 @@ function App() {
             element={<CategoryProducts />}
           />
           {/* Admin Page */}
-          <Route path="/login" element={<Login />} />
+          <Route path="/login-admin" element={<Loginadmin />} />
           <Route
             path="/admin-page"
             element={
@@ -54,6 +59,12 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route path="/register" element={<Register />} />
+          <Route path="/login-user" element={<Login />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/verify-otp" element={<VerifyOTP />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="verify-otp/:email" element={<VerifyOTP />} />
         </Routes>
       </div>
     </Router>

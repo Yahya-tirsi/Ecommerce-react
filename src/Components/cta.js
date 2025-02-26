@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 function Cta() {
   return (
     <section
@@ -26,8 +28,8 @@ function Cta() {
               style={{ color: "#000000", fontSize: "55px" }}
             ></i>
             <div className="ico-info-cta">
-            <h3>Bag</h3>
-            <h1>Guarantee</h1>
+              <h3>Bag</h3>
+              <h1>Guarantee</h1>
             </div>
           </div>
 
@@ -42,9 +44,9 @@ function Cta() {
             and leisure.
           </p>
 
-          <a href="#" className="btn">
+          <Link to="#" className="btn">
             Find out more
-          </a>
+          </Link>
         </div>
       </div>
     </section>

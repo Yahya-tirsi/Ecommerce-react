@@ -22,7 +22,7 @@ function Servises(){
                 <h3 class="h3 card-title">Free Same-Day Delivery</h3>
 
                 <p class="card-text">
-                  Order by 2pm local time to get free delivery on orders $35+ today.
+                  Order by 2pm local time to get free delivery on orders 349MAD+ today.
                 </p>
 
               </div>
@@ -56,7 +56,7 @@ function Servises(){
                 <h3 class="h3 card-title">Security payment</h3>
 
                 <p class="card-text">
-                  25% off your online order of $50+. Available at most locations.
+                  25% off your online order of 499MAD+. Available at most locations.
                 </p>
 
               </div>
@@ -73,7 +73,7 @@ function Servises(){
                 <h3 class="h3 card-title">24/7 Support</h3>
 
                 <p class="card-text">
-                  Shop online to get orders over $35 shipped fast and free.
+                  Shop online to get orders over 498MAD shipped fast and free.
                 </p>
 
               </div>

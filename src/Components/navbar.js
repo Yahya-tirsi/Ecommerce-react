@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "../App.css";
 import { Link, useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
+import axios from "axios";
 
 const Navbar = (props) => {
   // in mobile
@@ -21,17 +23,41 @@ const Navbar = (props) => {
 
   // Get products data from API
   useEffect(() => {
-    fetch("http://localhost:3001/products")
+    fetch("http://localhost:5000/api/produits")
       .then((response) => response.json())
       .then((data) => setGetdataproducts(data));
   }, []);
 
-    // Get cart data from API 
-    useEffect(() => {
-      fetch("http://localhost:3001/cart")
-        .then((response) => response.json())
-        .then((data) => setGetdatacart(data));
-    }, []);
+  // Get cart data from API
+  useEffect(() => {
+    const fetchUserOrders = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const decodedToken = jwtDecode(token);
+        const userId = decodedToken.id;
+
+        const res = await axios.get(
+          `http://localhost:5000/api/cart/${userId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setGetdatacart(res.data);
+      } catch (err) {
+        console.log("Failed to fetch orders. Please try again.");
+      }
+    };
+
+    fetchUserOrders();
+  }, []);
+
+  // Handle logout
+  const handleLogout = async (e) => {
+    localStorage.removeItem("token");
+    navigate("/login-user");
+  };
 
   // Handle changes in the input field
   const handleInputChange = (e) => {
@@ -86,20 +112,10 @@ const Navbar = (props) => {
       <div className="container">
         <button
           className="nav-toggle-btn"
-          aria-label="toggle menu"
-          data-nav-toggler
           onClick={toggleMobileMenu}
+          aria-label="Toggle menu"
         >
-          <ion-icon
-            name="menu-outline"
-            aria-hidden="true"
-            className="menu-icon"
-          ></ion-icon>
-          <ion-icon
-            name="close-outline"
-            aria-label="true"
-            className="close-icon"
-          ></ion-icon>
+          <i class="fa-solid fa-bars"></i>
         </button>
 
         <Link to="/" className="logo">
@@ -110,7 +126,7 @@ const Navbar = (props) => {
           />
         </Link>
 
-        <nav className="navbar" data-navbar>
+        <nav className={`navbar ${isMobile ? "active" : ""}`} data-navbar>
           <ul className="navbar-list">
             <li className="navbar-item">
               <Link
@@ -121,34 +137,7 @@ const Navbar = (props) => {
                 Home
               </Link>
             </li>
-            <li className="navbar-item">
-              <Link
-                style={{ color: `${props.color}` }}
-                to="#shop"
-                className="navbar-link"
-              >
-                Shop
-              </Link>
-            </li>
-            <li className="navbar-item">
-              <Link
-                style={{ color: `${props.color}` }}
-                to="/cta"
-                className="navbar-link"
-              >
-                Collections
-              </Link>
-            </li>
 
-            <li className="navbar-item">
-              <Link
-                style={{ color: `${props.color}` }}
-                to="#"
-                className="navbar-link"
-              >
-                Contact
-              </Link>
-            </li>
           </ul>
         </nav>
 
@@ -276,13 +265,15 @@ const Navbar = (props) => {
             </div>
           </div>
 
-          <button className="action-btn user" aria-label="User">
-            <Link to="/login">
-              <i
-                className="fa-solid fa-user"
-                style={{ color: `${props.color}` }}
-              ></i>
-            </Link>
+          <button
+            className="action-btn user"
+            aria-label="User"
+            onClick={() => handleLogout()}
+          >
+            <i
+              className="fa-solid fa-user"
+              style={{ color: `${props.color}` }}
+            ></i>
           </button>
 
           <button className="action-btn" aria-label="cart">

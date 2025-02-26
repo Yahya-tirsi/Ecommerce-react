@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Dataproduct } from "./data";
 import Navbar from "./navbar";
 
@@ -21,7 +21,7 @@ function Search() {
 
   // Get products data from API
   useEffect(() => {
-    fetch("http://localhost:3001/products")
+    fetch("http://localhost:5000/api/produits")
       .then((response) => response.json())
       .then((data) => {
         setGetdataproducts(data);
@@ -293,9 +293,9 @@ function Search() {
                         </div>
 
                         <h3 className="h3">
-                          <a href="#" className="card-title">
+                          <Link to="#" className="card-title">
                             {product.name}
-                          </a>
+                          </Link>
                         </h3>
 
                         <data className="card-price" value={product.price}>

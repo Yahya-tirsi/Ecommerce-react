@@ -2,17 +2,20 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-function Login() {
+function Loginadmin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [checkpass, setCheckpass] = useState(false);
   const [checkemail, setCheckemail] = useState(false);
   const [info, setInfo] = useState([]);
+
+  console.log(info);
+  
   // navigate to Admin
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("http://localhost:3001/admin")
+    fetch("http://localhost:5000/api/admin")
       .then((response) => response.json())
       .then((data) => {
         setInfo(data);
@@ -225,4 +228,4 @@ const StyledWrapper = styled.div`
   }
 `;
 
-export default Login;
+export default Loginadmin;
